@@ -13,6 +13,8 @@ Android 5.+ (API 21)
 
 # Usage
 
+Add `android:clipChildren="false"`, `android:clipToPadding="false"` to the parent layout to let ShadowLayout draw outside of view bounds.
+
 ```xml
 <fr.orandja.shadowlayout.ShadowLayout
     android:padding="8dp"
