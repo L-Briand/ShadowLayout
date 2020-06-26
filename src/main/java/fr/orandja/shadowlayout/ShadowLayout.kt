@@ -191,6 +191,9 @@ open class ShadowLayout @JvmOverloads constructor(
         lastBounds.set(viewBounds)
         lastScale = downscale
         lastWithColorBitmap = withColor
+        lastWithColorBitmap = withColor
+        lastWithDpi = withDpi
+        lastWithCss = withCss
 
         // create a receptacle for blur script. (MDPI / downscale) + (pixels * 2) cause blur spread in all directions
         blurBitmap?.recycle()
