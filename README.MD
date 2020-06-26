@@ -61,8 +61,7 @@ Default value in parenthesis
 
 The default implementation of android gaussian blur (`ScriptIntrinsicBlur` render script) is limited to 25 pixels at max. 
 To counter that, the layout downscale the real render of the view inside a bitmap (ALPHA_8 or RGBA with `shadow_with_color` at true). 
-Then blur it. Then draw the blur inside the canvas. Then **redraw** the view in the canvas. (`shadow_with_foreground` at true)
-It draw the view 2 times so it can be really expensive. 
+Then blur it. Then renders the blur inside the canvas. Then **redraw** the view in the canvas. (`shadow_with_foreground` at true)
 
 The radius can mean multiple things depending on the configurations. 
 
@@ -79,7 +78,7 @@ When no downscale are applied:
 ```
 
 The internal bitmap is the same size of the view. The radius is the number of **pixels** blured around.
-With high dpi, it will be hard to the effect. However, in some cases, it can be usefull to have a nice looking blur at the expense of more memory.
+With high dpi, it will be hard to see the effect. However, in some cases, it can be usefull to have a nice looking blur at the expense of more memory.
 The max radius is 25 pixels. The parameter `shadow_downscale` multiply the max radius by its value. So at shadow_downscale="2.5" it increases the max radius to 62.5f.
 
 When `app:shadow_with_dpi_scale="true"`: Downscale the internal bitmap by the current smartphone dpi. A 100dp view will result in a 100px bitmap.
