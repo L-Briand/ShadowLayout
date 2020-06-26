@@ -46,7 +46,7 @@ Android 5.+ (API 21)
 
 Default value in parenthesis
 
-- `shadow_radius` (6f) The radius of the gaussian blur in float. See [Rules of downscaling](#Rules of downscaling) section to see how it works. 
+- `shadow_radius` (6f) The radius of the gaussian blur in float. See #Rules of downscaling section to see how it works. 
 - `shadow_x_shift` (0dp) Shift on the horizontal axis in dp
 - `shadow_y_shift` (0dp) Shift on the vertical axis in dp
 - `shadow_color` (#33000000) Color of the casted shadow
