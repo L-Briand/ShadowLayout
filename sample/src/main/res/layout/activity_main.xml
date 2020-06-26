@@ -66,6 +66,7 @@
         android:layout_height="16dp" />
 
     <fr.orandja.shadowlayout.ShadowLayout
+        android:id="@+id/__rainbow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -78,7 +79,14 @@
         app:shadow_with_css_scale="true"
         app:shadow_with_dpi_scale="true"
         app:shadow_with_foreground="true"
-        app:shadow_x_shift="2dp"
-        app:shadow_y_shift="8dp" />
+        app:shadow_x_shift="4dp"
+        app:shadow_y_shift="10dp" >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The quick brown fox jump over the lazy dog"
+            android:textColor="#808"
+            android:textSize="16sp" />
+    </fr.orandja.shadowlayout.ShadowLayout>
 
 </LinearLayout>
