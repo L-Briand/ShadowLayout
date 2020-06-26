@@ -124,6 +124,7 @@ open class ShadowLayout @JvmOverloads constructor(
 
     open var withDpi: Boolean = true
         set(value) {
+            if (field == value) return
             field = value
             destroyBitmap()
             updateBitmap()
@@ -132,6 +133,7 @@ open class ShadowLayout @JvmOverloads constructor(
 
     open var withCss: Boolean = true
         set(value) {
+            if (field == value) return
             field = value
             destroyBitmap()
             updateBitmap()
