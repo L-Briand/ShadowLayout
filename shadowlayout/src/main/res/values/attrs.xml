@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ShadowLayout">
+        <!-- The radius of the gaussian blur in float -->
         <attr name="shadow_radius" format="float" />
+        <!-- Shift on the horizontal axis in dp -->
         <attr name="shadow_x_shift" format="dimension" />
+        <!-- Shift on the vertical axis in dp -->
         <attr name="shadow_y_shift" format="dimension" />
-        <attr name="shadow_downscale" format="float" />
+        <!-- Color of the casted shadow -->
         <attr name="shadow_color" format="color" />
+        <!-- Keep all the subview colors in the blur -->
         <attr name="shadow_with_content" format="boolean" />
+        <!-- Keep all the subview colors in the blur  -->
         <attr name="shadow_with_color" format="boolean" />
-        <attr name="shadow_with_css_scale" format="boolean" />
+        <!-- Downscale of the internal bitmap that render the shadow -->
+        <attr name="shadow_downscale" format="float" />
+        <!-- Downscale the internal bitmap by the current smartphone dpi -->
         <attr name="shadow_with_dpi_scale" format="boolean" />
-        <attr name="shadow_cast_background" format="boolean" />
+        <!-- Downscale by 5/3 more -->
+        <attr name="shadow_with_css_scale" format="boolean" />
+        <!-- Only render the background and not the view as shadow -->
+        <attr name="shadow_cast_only_background" format="boolean" />
     </declare-styleable>
 </resources>

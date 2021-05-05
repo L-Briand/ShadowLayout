@@ -9,12 +9,13 @@
     android:padding="16dp">
 
     <net.orandja.shadowlayout.ShadowLayout
+        _background="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/round_corners"
         android:padding="8dp"
-        app:shadow_cast_background="true"
+        app:shadow_cast_only_background="true"
         app:shadow_color="#808"
         app:shadow_downscale="1"
         app:shadow_radius="8"

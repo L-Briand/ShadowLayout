@@ -1,5 +1,3 @@
-@file:Suppress("LeakingThis")
-
 package net.orandja.shadowlayout
 
 import android.content.Context
@@ -14,7 +12,6 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.Nullable
@@ -26,7 +23,8 @@ import androidx.core.graphics.withMatrix
 import kotlin.math.ceil
 
 /** A CSS like shadow */
-open class ShadowLayout @JvmOverloads constructor(
+@Suppress("PropertyName")
+class ShadowLayout @JvmOverloads constructor(
     context: Context,
     @Nullable attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -50,111 +48,63 @@ open class ShadowLayout @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
     private val eraser = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT) }
 
-    open fun getColor(): Int = paint.color
-    open fun setColor(@ColorInt color: Int) {
-        if (paint.color == color) return
-        paint.color = color
-        postInvalidate()
+    var shadow_color: Int
+        get() = paint.color
+        set(value) {
+            if (paint.color == value) return
+            paint.color = value
+            postInvalidate()
+        }
+
+    fun setColorRes(@ColorRes color: Int) {
+        shadow_color = ResourcesCompat.getColor(resources, color, context.theme)
     }
 
-    open fun setColorRes(@ColorRes color: Int) {
-        setColor(ResourcesCompat.getColor(resources, color, context.theme))
+    var shadow_x_shift: Float by OnUpdate(0f)
+    fun setXShift(@DimenRes shift: Int) {
+        shadow_x_shift = context.resources.getDimension(shift)
     }
 
-    open var xShift: Float = 0f
-        set(value) {
-            if (field == value) return
-            field = value
-            postInvalidate()
-        }
-
-    open fun setXShift(@DimenRes shift: Int) {
-        xShift = context.resources.getDimension(shift)
+    var shadow_y_shift: Float by OnUpdate(0f)
+    fun setYShift(@DimenRes shift: Int) {
+        shadow_y_shift = context.resources.getDimension(shift)
     }
 
-    open var yShift: Float = 0f
-        set(value) {
-            if (field == value) return
-            field = value
-            postInvalidate()
-        }
+    var shadow_downscale: Float by OnUpdate(1f, { it.coerceAtLeast(0.1f) }) {
+        realRadius = shadow_radius / it
+        updateBitmap()
+    }
+    var shadow_radius: Float by OnUpdate(0f, { it.coerceAtLeast(0f) }) {
+        realRadius = it / shadow_downscale
+    }
+    private var realRadius: Float by OnUpdate(
+        0f, { it.coerceIn(0f, 25f) } // allowed blur size on ScriptIntrinsicBlur by android
+    )
 
-    open fun setYShift(@DimenRes shift: Int) {
-        yShift = context.resources.getDimension(shift)
+    var shadow_cast_only_background: Boolean by OnUpdate(false)
+    var shadow_with_content: Boolean by OnUpdate(true)
+    var shadow_with_color: Boolean by OnUpdate(false) {
+        destroyBitmap()
+        updateBitmap()
+    }
+    var shadow_with_dpi_scale: Boolean by OnUpdate(true) {
+        destroyBitmap()
+        updateBitmap()
+    }
+    var shadow_with_css_scale: Boolean by OnUpdate(true) {
+        destroyBitmap()
+        updateBitmap()
     }
 
-    open var downscale: Float = 1f
-        set(value) {
-            if (field == value) return
-            field = value.coerceAtLeast(0.1f)
-            realRadius = radius / field
-            updateBitmap()
-            postInvalidate()
-        }
-
-    open var radius: Float = 0f
-        set(value) {
-            if (field == value) return
-            field = value.coerceAtLeast(0f)
-            realRadius = field / downscale
-            postInvalidate()
-        }
-
-    private var realRadius: Float = 0f
-        set(value) {
-            if (field == value) return
-            field = value.coerceIn(0f, 25f) // allowed blur size on ScriptIntrinsicBlur by android
-        }
-
-    open var withContent: Boolean = true
-        set(value) {
-            if (field == value) return
-            field = value
-            postInvalidate()
-        }
-
-    open var withColor: Boolean = false
-        set(value) {
-            if (field == value) return
-            field = value
-            destroyBitmap()
-            updateBitmap()
-            postInvalidate()
-        }
-
-    open var withDpi: Boolean = true
-        set(value) {
-            if (field == value) return
-            field = value
-            destroyBitmap()
-            updateBitmap()
-            postInvalidate()
-        }
-
-    open var withCss: Boolean = true
-        set(value) {
-            if (field == value) return
-            field = value
-            destroyBitmap()
-            updateBitmap()
-            postInvalidate()
-        }
-
-    open var castBackground: Boolean = false
-        set(value) {
-            if (field == value) return
-            field = value
-            postInvalidate()
-        }
 
     // IN VARIABLES
 
-    private val ratioDpToPixels get() = if (withDpi) Companion.ratioDpToPixels else 1f
-    private val ratioPixelsToDp get() = if (withDpi) Companion.ratioPixelsToDp else 1f
-    private val cssRatio get() = if (withCss) Companion.cssRatio else 1f
+    private val ratioDpToPixels get() = if (shadow_with_dpi_scale) Companion.ratioDpToPixels else 1f
+    private val ratioPixelsToDp get() = if (shadow_with_dpi_scale) Companion.ratioPixelsToDp else 1f
+    private val cssRatio get() = if (shadow_with_css_scale) Companion.cssRatio else 1f
 
     // size in pixel of the blur spread
-    private val pixelsOverBoundaries: Int get() = if (downscale < 1f) 25 else ceil(25f * downscale).toInt()
+    private val pixelsOverBoundaries: Int get() = if (shadow_downscale < 1f) 25 else ceil(25f * shadow_downscale).toInt()
     private val viewBounds: Rect = Rect()
     private fun setViewBounds(width: Int, height: Int) {
         viewBounds.set(0, 0, width, height)
@@ -172,12 +122,12 @@ open class ShadowLayout @JvmOverloads constructor(
     private var lastWithColorScript: Boolean? = null
     private fun getScript(): Pair<ScriptIntrinsicBlur, RenderScript> {
         val renderScript = this.renderScript ?: RenderScript.create(context)
-        if (lastWithColorScript != withColor) { // recreate script only if colors change
-            lastWithColorScript = withColor
+        if (lastWithColorScript != shadow_with_color) { // recreate script only if colors change
+            lastWithColorScript = shadow_with_color
             script = null
         }
         if (script != null) return Pair(script!!, renderScript!!)
-        val element = if (withColor) Element.U8_4(renderScript) else Element.U8(renderScript)
+        val element = if (shadow_with_color) Element.U8_4(renderScript) else Element.U8(renderScript)
         script = ScriptIntrinsicBlur.create(renderScript, element)
         return Pair(script!!, renderScript!!)
     }
@@ -191,28 +141,28 @@ open class ShadowLayout @JvmOverloads constructor(
         // do not recreate if same specs.
         if (viewBounds.isEmpty || isAttachedToWindow
             && lastBounds == viewBounds
-            && downscale == lastScale
-            && withColor == lastWithColorBitmap
-            && withDpi == lastWithDpi
-            && withCss == lastWithCss
+            && shadow_downscale == lastScale
+            && shadow_with_color == lastWithColorBitmap
+            && shadow_with_dpi_scale == lastWithDpi
+            && shadow_with_css_scale == lastWithCss
         ) return
         lastBounds.set(viewBounds)
-        lastScale = downscale
-        lastWithColorBitmap = withColor
-        lastWithColorBitmap = withColor
-        lastWithDpi = withDpi
-        lastWithCss = withCss
+        lastScale = shadow_downscale
+        lastWithColorBitmap = shadow_with_color
+        lastWithColorBitmap = shadow_with_color
+        lastWithDpi = shadow_with_dpi_scale
+        lastWithCss = shadow_with_css_scale
 
         // create a receptacle for blur script. (MDPI / downscale) + (pixels * 2) cause blur spread in all directions
         blurBitmap?.recycle()
         blurBitmap = Bitmap.createBitmap(
             (ceil(
-                (viewBounds.width().toFloat() * ratioPixelsToDp) / downscale / cssRatio
+                (viewBounds.width().toFloat() * ratioPixelsToDp) / shadow_downscale / cssRatio
             ) + pixelsOverBoundaries * 2).toInt(),
             (ceil(
-                (viewBounds.height().toFloat() * ratioPixelsToDp) / downscale / cssRatio
+                (viewBounds.height().toFloat() * ratioPixelsToDp) / shadow_downscale / cssRatio
             ) + pixelsOverBoundaries * 2).toInt(),
-            if (withColor) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
+            if (shadow_with_color) Bitmap.Config.ARGB_8888 else Bitmap.Config.ALPHA_8
         )
 
         blurCanvas = Canvas(blurBitmap!!)
@@ -245,6 +195,7 @@ open class ShadowLayout @JvmOverloads constructor(
         lastWithCss = null
     }
 
+    /** Cause the default elevation rendering to not work */
     override fun getOutlineProvider(): ViewOutlineProvider = object : ViewOutlineProvider() {
         override fun getOutline(view: View?, outline: Outline?) = Unit
     }
@@ -256,16 +207,17 @@ open class ShadowLayout @JvmOverloads constructor(
             val attributes = context.obtainStyledAttributes(
                 attrs, R.styleable.ShadowLayout, defStyleAttr, defStyleRes
             )
-            setColor(attributes.getColor(R.styleable.ShadowLayout_shadow_color, 51 shl 24))
-            withColor = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_color, false)
-            withContent = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_content, true)
-            withDpi = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_dpi_scale, true)
-            withCss = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_css_scale, true)
-            xShift = attributes.getDimension(R.styleable.ShadowLayout_shadow_x_shift, 0f)
-            yShift = attributes.getDimension(R.styleable.ShadowLayout_shadow_y_shift, 0f)
-            downscale = attributes.getFloat(R.styleable.ShadowLayout_shadow_downscale, 1f)
-            radius = attributes.getFloat(R.styleable.ShadowLayout_shadow_radius, 6f)
-            castBackground = attributes.getBoolean(R.styleable.ShadowLayout_shadow_cast_background, false)
+
+            shadow_color = attributes.getColor(R.styleable.ShadowLayout_shadow_color, 51 shl 24)
+            shadow_with_color = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_color, false)
+            shadow_with_content = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_content, true)
+            shadow_with_dpi_scale = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_dpi_scale, true)
+            shadow_with_css_scale = attributes.getBoolean(R.styleable.ShadowLayout_shadow_with_css_scale, true)
+            shadow_x_shift = attributes.getDimension(R.styleable.ShadowLayout_shadow_x_shift, 0f)
+            shadow_y_shift = attributes.getDimension(R.styleable.ShadowLayout_shadow_y_shift, 0f)
+            shadow_downscale = attributes.getFloat(R.styleable.ShadowLayout_shadow_downscale, 1f)
+            shadow_radius = attributes.getFloat(R.styleable.ShadowLayout_shadow_radius, 6f)
+            shadow_cast_only_background = attributes.getBoolean(R.styleable.ShadowLayout_shadow_cast_only_background, false)
 
             attributes.recycle()
         }
@@ -287,25 +239,25 @@ open class ShadowLayout @JvmOverloads constructor(
         if (!isInEditMode) setViewBounds(w, h)
     }
 
-    private val blurTMatrix: Matrix // cause blur spreads
+    private inline val blurTMatrix: Matrix // cause blur spreads
         get() = translationMatrix(pixelsOverBoundaries.toFloat(), pixelsOverBoundaries.toFloat())
-    private val blurSMatrix: Matrix // to draw inside the small blurBitmap
-        get() = scaleMatrix(ratioPixelsToDp / downscale / cssRatio, ratioPixelsToDp / downscale / cssRatio)
+    private inline val blurSMatrix: Matrix // to draw inside the small blurBitmap
+        get() = scaleMatrix(ratioPixelsToDp / shadow_downscale / cssRatio, ratioPixelsToDp / shadow_downscale / cssRatio)
 
-    private val drawTMatrix: Matrix // counterbalance for blur spread in canvas
+    private inline val drawTMatrix: Matrix // counterbalance for blur spread in canvas
         get() = translationMatrix(
-            -(pixelsOverBoundaries * ratioDpToPixels * downscale * cssRatio),
-            -(pixelsOverBoundaries * ratioDpToPixels * downscale * cssRatio)
+            -(pixelsOverBoundaries * ratioDpToPixels * shadow_downscale * cssRatio),
+            -(pixelsOverBoundaries * ratioDpToPixels * shadow_downscale * cssRatio)
         )
-    private val drawSMatrix: Matrix // enlarge blur image to canvas size
+    private inline val drawSMatrix: Matrix // enlarge blur image to canvas size
         get() = scaleMatrix(
-            ratioDpToPixels * downscale * cssRatio,
-            ratioDpToPixels * downscale * cssRatio
+            ratioDpToPixels * shadow_downscale * cssRatio,
+            ratioDpToPixels * shadow_downscale * cssRatio
         )
-    private val shiftTMatrix: Matrix // User want a nice shifted shadow
+    private inline val shiftTMatrix: Matrix // User want a nice shifted shadow
         get() = translationMatrix(
-            xShift / downscale / cssRatio,
-            yShift / downscale / cssRatio
+            shadow_x_shift / shadow_downscale / cssRatio,
+            shadow_y_shift / shadow_downscale / cssRatio
         )
 
     override fun draw(canvas: Canvas?) {
@@ -317,7 +269,7 @@ open class ShadowLayout @JvmOverloads constructor(
         if (blurCanvas != null) {
             blurCanvas!!.drawRect(blurCanvas!!.clipBounds, eraser)
             blurCanvas!!.withMatrix(blurTMatrix * blurSMatrix) {
-                if (castBackground) {
+                if (shadow_cast_only_background) {
                     background.bounds = viewBounds
                     background?.draw(blurCanvas!!)
                 } else super.draw(blurCanvas)
@@ -333,7 +285,7 @@ open class ShadowLayout @JvmOverloads constructor(
                 canvas.drawBitmap(blurBitmap!!, 0f, 0f, paint)
             }
         }
-        if (withContent) super.draw(canvas)
+        if (shadow_with_content) super.draw(canvas)
     }
 
 }

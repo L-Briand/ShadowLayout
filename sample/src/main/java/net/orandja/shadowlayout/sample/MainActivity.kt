@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
             duration = 2000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
-            addUpdateListener { __rainbow.radius = it.animatedValue as Float }
+            addUpdateListener { __rainbow.shadow_radius = it.animatedValue as Float }
         }.start()
     }
 }

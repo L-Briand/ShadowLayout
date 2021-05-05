@@ -30,7 +30,8 @@ Add `android:clipChildren="false"`, `android:clipToPadding="false"` to the paren
     app:shadow_with_foreground="true"
     app:shadow_with_color="false"
     app:shadow_with_dpi_scale="true"
-    app:shadow_with_css_scale="true">
+    app:shadow_with_css_scale="true"
+    app:shadow_cast_only_background="true">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
@@ -57,6 +58,7 @@ Default value in parenthesis
 - `shadow_with_color` (false) Keep all the subview colors in the blur. Coupled with `shadow_with_foreground` at false, a blur image can be render on screen.
 - `shadow_with_dpi_scale` (true) Downscale the internal bitmap by the current smartphone dpi. A 100dp view will result in a 100px bitmap. 
 - `shadow_with_css_scale` (true) Downscale by 5/3 more. Because CSS shadow standard blur by a half more than the real blur size.
+- `shadow_cast_only_background` (false) Only render the background and not the view as shadow
 
 
 ## Limitations
@@ -106,7 +108,8 @@ As said before since it draw the whole layout it can cast a shadow of anything. 
         app:shadow_with_foreground="true"
         app:shadow_with_color="true"
         app:shadow_with_css_scale="false"
-        app:shadow_with_dpi_scale="true">
+        app:shadow_with_dpi_scale="true"
+        app:shadow_cast_only_background="true">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
