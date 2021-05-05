@@ -4,7 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import net.orandja.shadowlayout.ShadowLayout
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
             duration = 2000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
-            addUpdateListener { __rainbow.shadow_radius = it.animatedValue as Float }
+            addUpdateListener { findViewById<ShadowLayout>(R.id.__rainbow).shadow_radius = it.animatedValue as Float }
         }.start()
     }
 }
