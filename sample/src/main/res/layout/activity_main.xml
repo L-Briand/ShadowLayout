@@ -9,7 +9,6 @@
     android:padding="16dp">
 
     <net.orandja.shadowlayout.ShadowLayout
-        _background="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

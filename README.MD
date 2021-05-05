@@ -11,6 +11,25 @@ It do much more than casting a shadow so the name can be inaccurate. Internally,
 
 Android 5.+ (API 21)
 
+# Gradle
+
+The project is hosted on maven Central :
+```groovy
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+```
+
+Then add dependency :
+```groovy
+dependencies {
+    implementation("net.orandja.shadowlayout:shadowlayout:1.0.0")
+}
+```
+
+
 # Usage
 
 Add `android:clipChildren="false"`, `android:clipToPadding="false"` to the parent layout to let ShadowLayout draw outside of view bounds.
