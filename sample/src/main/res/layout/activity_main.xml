@@ -8,19 +8,20 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <fr.orandja.shadowlayout.ShadowLayout
+    <net.orandja.shadowlayout.ShadowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/round_corners"
         android:padding="8dp"
+        app:shadow_cast_background="true"
         app:shadow_color="#808"
         app:shadow_downscale="1"
         app:shadow_radius="8"
         app:shadow_with_color="false"
+        app:shadow_with_content="true"
         app:shadow_with_css_scale="true"
         app:shadow_with_dpi_scale="true"
-        app:shadow_with_foreground="true"
         app:shadow_x_shift="-1dp"
         app:shadow_y_shift="2dp">
 
@@ -31,13 +32,13 @@
             android:textColor="#000"
             android:textSize="16sp" />
 
-    </fr.orandja.shadowlayout.ShadowLayout>
+    </net.orandja.shadowlayout.ShadowLayout>
 
     <Space
         android:layout_width="8dp"
         android:layout_height="8dp" />
 
-    <fr.orandja.shadowlayout.ShadowLayout
+    <net.orandja.shadowlayout.ShadowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -46,47 +47,55 @@
         app:shadow_downscale="1"
         app:shadow_radius="1"
         app:shadow_with_color="true"
+        app:shadow_with_content="true"
         app:shadow_with_css_scale="false"
         app:shadow_with_dpi_scale="true"
-        app:shadow_with_foreground="true"
         app:shadow_x_shift="1dp"
         app:shadow_y_shift="2dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The quick brown fox jump over the lazy dog"
-            android:textColor="#808"
-            android:textSize="16sp" />
+            android:orientation="vertical">
 
-    </fr.orandja.shadowlayout.ShadowLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The quick brown fox jump over the lazy dog"
+                android:textColor="#808"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </net.orandja.shadowlayout.ShadowLayout>
 
     <Space
         android:layout_width="16dp"
         android:layout_height="16dp" />
 
-    <fr.orandja.shadowlayout.ShadowLayout
+    <net.orandja.shadowlayout.ShadowLayout
         android:id="@+id/__rainbow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:layout_margin="12dp"
         android:background="@drawable/multicolor"
+        android:padding="16dp"
         app:shadow_color="#FF000000"
         app:shadow_downscale="1"
         app:shadow_radius="25"
         app:shadow_with_color="true"
+        app:shadow_with_content="false"
         app:shadow_with_css_scale="true"
         app:shadow_with_dpi_scale="true"
-        app:shadow_with_foreground="true"
         app:shadow_x_shift="4dp"
-        app:shadow_y_shift="10dp" >
+        app:shadow_y_shift="10dp">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="The quick brown fox jump over the lazy dog"
             android:textColor="#808"
             android:textSize="16sp" />
-    </fr.orandja.shadowlayout.ShadowLayout>
+    </net.orandja.shadowlayout.ShadowLayout>
 
 </LinearLayout>

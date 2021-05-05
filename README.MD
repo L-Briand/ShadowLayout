@@ -16,7 +16,7 @@ Android 5.+ (API 21)
 Add `android:clipChildren="false"`, `android:clipToPadding="false"` to the parent layout to let ShadowLayout draw outside of view bounds.
 
 ```xml
-<fr.orandja.shadowlayout.ShadowLayout
+<net.orandja.shadowlayout.ShadowLayout
     android:padding="8dp"
     android:layout_gravity="center"
     android:layout_width="wrap_content"
@@ -39,7 +39,7 @@ Add `android:clipChildren="false"`, `android:clipToPadding="false"` to the paren
         android:text="The quick brown fox jump over the lazy dog"
         android:textSize="16sp" />
 
-</fr.orandja.shadowlayout.ShadowLayout>
+</net.orandja.shadowlayout.ShadowLayout>
 ```
 
 ![quick brown fox text view](assets/quick_fox.png)
@@ -72,7 +72,7 @@ The radius can mean multiple things depending on the configurations.
 When no downscale are applied:
  
 ```xml
-<fr.orandja.shadowlayout.ShadowLayout
+<net.orandja.shadowlayout.ShadowLayout
     app:shadow_radius="3f"
     app:shadow_downscale="1"
     app:shadow_with_dpi_scale="false"
@@ -86,14 +86,14 @@ The max radius is 25 pixels. The parameter `shadow_downscale` multiply the max r
 When `app:shadow_with_dpi_scale="true"`: Downscale the internal bitmap by the current smartphone dpi. A 100dp view will result in a 100px bitmap.
 The radius means **dp**. It blurs up to 25dp.
 
-When `app:shadow_with_css_scale="true"`: Same as dpi, it will add a 5/3 downscale to mimic the CSS shadow blur.
+When `app:shadow_with_css_scale="true"`: Same as dpi, it will add a 5/3 downscale to mimic the CSS shadow blur.
 
 # Shadow anything
 
 As said before since it draw the whole layout it can cast a shadow of anything. Like text:
 
 ```xml
-    <fr.orandja.shadowlayout.ShadowLayout
+    <net.orandja.shadowlayout.ShadowLayout
         android:padding="8dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -115,7 +115,7 @@ As said before since it draw the whole layout it can cast a shadow of anything. 
             android:text="The quick brown fox jump over the lazy dog"
             android:textSize="16sp" />
 
-    </fr.orandja.shadowlayout.ShadowLayout>
+    </net.orandja.shadowlayout.ShadowLayout>
 ```
 
 ![quick brown fox text view](assets/quick_fox_text.png)
