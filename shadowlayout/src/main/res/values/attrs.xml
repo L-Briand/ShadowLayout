@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="shadowLayoutStyle" format="reference" />
     <declare-styleable name="ShadowLayout">
         <!-- The radius of the gaussian blur in float -->
         <attr name="shadow_radius" format="float" />

@@ -98,4 +98,21 @@
             android:textSize="16sp" />
     </net.orandja.shadowlayout.ShadowLayout>
 
+    <net.orandja.shadowlayout.ShadowLayout
+        android:id="@+id/__default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:background="@android:color/white"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The quick brown fox jump over the lazy dog"
+            android:textColor="#808"
+            android:textSize="16sp" />
+    </net.orandja.shadowlayout.ShadowLayout>
+
 </LinearLayout>

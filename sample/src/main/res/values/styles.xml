@@ -5,6 +5,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="shadowLayoutStyle">@style/ShadowLayout</item>
+    </style>
+
+    <style name="ShadowLayout">
+        <item name="shadow_color">#FF000000</item>
+        <item name="shadow_downscale">1</item>
+        <item name="shadow_radius">10</item>
+        <item name="shadow_with_color">false</item>
+        <item name="shadow_with_content">true</item>
+        <item name="shadow_cast_only_background">false</item>
+        <item name="shadow_with_css_scale">true</item>
+        <item name="shadow_with_dpi_scale">true</item>
+        <item name="shadow_x_shift">2dp</item>
+        <item name="shadow_y_shift">3dp</item>
     </style>
 
 </resources>

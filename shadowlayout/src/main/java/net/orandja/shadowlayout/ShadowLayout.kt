@@ -27,7 +27,7 @@ import kotlin.math.ceil
 class ShadowLayout @JvmOverloads constructor(
     context: Context,
     @Nullable attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
+    defStyleAttr: Int = R.attr.shadowLayoutStyle,
     defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
