@@ -25,7 +25,7 @@ allprojects {
 Then add dependency :
 ```groovy
 dependencies {
-    implementation("net.orandja.shadowlayout:shadowlayout:1.0.0")
+    implementation("net.orandja.shadowlayout:shadowlayout:1.0.1")
 }
 ```
 
